@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>スタンプ管理画面</title>
+    <style>
+        .button-container {display: flex;gap: 10px;align-items: center;margin-bottom: 20px;}
+        .reload-btn {padding: 5px 16px;font-size: 0.9rem;background-color: #3498db;color: white;border: none;border-radius: 4px;cursor: pointer;}
+        .reload-btn:hover {background-color: #2980b9;}
+        body { font-family: sans-serif; padding: 20px; max-width: 1200px; margin: 0 auto; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
+        th { background-color: #f4f4f4; }
+        .badge-complete { background-color: #2ecc71; color: white; padding: 3px 8px; border-radius: 4px; font-weight: bold; }
+        .badge-incomplete { background-color: #95a5a6; color: white; padding: 3px 8px; border-radius: 4px; }
+        .btn { padding: 5px 10px; cursor: pointer; border: none; border-radius: 3px; }
+        .btn-add { background-color: #2ecc71; color: white; }
+        .btn-remove { background-color: #e67e22; color: white; }
+        .btn-delete { background-color: #e74c3c; color: white; }
+    </style>
+</head>
+<body>
+
+    <h1>管理ボード</h1>
+    
+    <p>
+        参加者数: <strong>{{ total_participants }}</strong> / 
+        ゴール者数: <strong>{{ completed_participants }}</strong>
+    </p>
+
+    <!-- ボタン群をコンテナで囲んで Flexbox を適用 -->
+    <div class="button-container">
+        <button onclick="location.reload()" class="reload-btn">データを更新</button>
+
+        <form action="/admin/clear" method="POST" onsubmit="return confirm('全データを消去しますか？');" style="margin: 0;">
+            <input type="hidden" name="user_id" value="ALL">
+            <button type="submit" class="btn btn-delete">全データリセット</button>
+        </form>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ユーザーID</th>
+                <th>保持スタンプ</th>
+                <th>コンプリート</th>
+                <th>操作</th>
+                <th>削除</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for uid, data in user_db.items() %}
+            <tr>
+                <td><code>{{ uid[:36] }}</code></td>
+                <td>{{ data.stumps|join(', ') if data.stumps else '(なし)' }}</td>
+                <td>
+                    {% if data.completed %}
+                        <span class="badge-complete">True</span>
+                    {% else %}
+                        <span class="badge-incomplete">False</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <form action="/admin/update" method="POST" style="display:inline;">
+                        <input type="hidden" name="user_id" value="{{ uid }}">
+                        <select name="stump_id">
+                            <option value="647889">stump_01</option>
+                            <option value="307616">stump_02</option>
+                            <option value="832904">stump_03</option>
+                            <option value="846782">stump_04</option>
+                            <option value="675845">stump_05</option>
+                        </select>
+                        <button type="submit" name="action" value="add" class="btn btn-add">付与</button>
+                        <button type="submit" name="action" value="remove" class="btn btn-remove">剥奪</button>
+                    </form>
+                </td>
+                <td>
+                    <form action="/admin/clear" method="POST" style="display:inline;">
+                        <input type="hidden" name="user_id" value="{{ uid }}">
+                        <button type="submit" class="btn btn-delete">削除</button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="5" style="text-align: center;">ユーザーデータがありません</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>

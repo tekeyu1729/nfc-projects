@@ -1,0 +1,763 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: #212121;
+  width: 100%;
+  min-height: 100dvh;
+  overflow-x: hidden; /* 横スクロールの発生を抑える */
+  /* overflow-y: hidden; */
+}
+
+/* 【メインコンテナ】 */
+.app-container {
+position: relative;
+  width: 100vw;       /* 画面幅いっぱいに指定 */
+  width: 100%;
+  min-height: 100dvh; /* 縦幅いっぱいに指定 */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* 【ヘッダー】 */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 101%;
+  height: 54px;
+  padding: 0 16px;
+  z-index: 100;
+  background: rgba(20, 20, 20, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+.logo-image {
+  width: 170px;
+  height: auto;
+  cursor: pointer;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+  transition: transform 0.2s ease;
+}
+.logo-image:active {
+  transform: scale(0.95);
+}
+
+.menu-group {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.menu-group img {
+  width: 24px;
+  height: auto;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+.menu-group a {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  opacity: 0.45;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.menu-group a.active {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-1px);
+}
+.menu-group a.active::after {
+  content: "";
+  position: absolute;
+  bottom: 2px;
+  width: 4px;
+  height: 4px;
+  background-color: #ff4b4b;
+  border-radius: 50%;
+  box-shadow: 0 0 6px #ff4b4b;
+}
+
+/* 【タブのスタイル】 */
+.view-section {
+  display: none;
+  flex-direction: column;
+  flex-grow: 1;
+  height: calc(100% - 54px);
+  padding: 10px 15px;
+  justify-content: flex-start;
+  position: relative;
+}
+.view-section.active {
+  display: flex;
+}
+.view-section:not(#viewHome)[style*="display: flex"],
+.view-section:not(#viewHome).active {
+  animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.home-content, .gallery-content {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 100%;
+}
+
+/* 【Home】 */
+.background-image {
+  position: absolute;
+  top: -5px;
+  left: 0;
+  width: 101%;
+  height: 101%;
+  object-fit: cover;
+  opacity: 0.3;
+  z-index: 0;
+}
+.map-area {
+  position: relative;
+  width: 100%;
+  flex-grow: 1;
+  min-height: 300px;
+  margin: 10px 0;
+  z-index: 5;
+}
+.stamp-node {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  filter: grayscale(100%);
+  transition: all 0.3s ease;
+  background-color: #fff;
+  border: 2px solid #ccc;
+}
+.stamp-node:active {
+  transform: translate(-50%, -50%) scale(0.92);
+}
+.stamp-node img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 50%;
+}
+.stamp-node.acquired {
+  opacity: 1;
+  filter: grayscale(0%);
+  border-color: #ff4b4b;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+.goal-button-parent {
+  position: relative;
+  display: inline-block;
+  z-index: 2;
+}
+.lock-icon {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-350%, -50%);
+  width: 38px;
+  height: auto;
+  pointer-events: none;
+  z-index: 10;
+  transition: all 0.3s ease;
+}
+.goal-button {
+  width: 90%;
+  padding: 12px;
+  font-size: 19px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #888;
+  border: 2px solid #666;
+  border-radius: 25px;
+  text-align: center;
+  text-indent: 50px;
+  cursor: not-allowed;
+  filter: grayscale(100%);
+  transition: all 0.3s ease;
+  margin: 0 auto 10px auto;
+}
+.goal-button.active {
+  color: #fff;
+  background: linear-gradient(135deg, #ff6b6b 0%, #d80027 100%);
+  border-color: #ff8888;
+  cursor: pointer;
+  filter: none;
+  box-shadow: 0 6px 20px rgba(232, 0, 41, 0.5), inset 0 1px 2px rgba(255,255,255,0.4);
+}
+
+/* 【モーダル表示エリア】*/
+.modal-overlay {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background-color: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(3px);
+  display: flex; justify-content: center; align-items: center;
+  visibility: hidden; opacity: 0;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+  z-index: 1000; /* 最前面に表示させる */
+}
+.modal-overlay.show { visibility: visible; opacity: 1; }
+.modal-content {
+  background: #fff; padding: 20px; border-radius: 12px;
+  width: 85%; text-align: center; border: 2px solid #333;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+.modal-stamp-img { width: 80px; height: 80px; margin: 10px auto; }
+.modal-stamp-img img { width: 100%; height: 100%; object-fit: contain; }
+.modal-location { font-size: 16px; color: #333; margin: 10px 0; font-weight: bold; }
+
+/* モーダル内ボタンエリア */
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+.close-btn {
+  flex: 1;
+  margin-top: 5px;
+  padding: 8px 16px;
+  background-color: #444; color: #fff; border: none;
+  border-radius: 6px; cursor: pointer; font-weight: bold;
+}
+.action-btn {
+  flex: 1;
+  padding: 10px 16px;
+  background-color: #ff4b4b; color: #fff; border: none;
+  border-radius: 6px; cursor: pointer; font-weight: bold;
+  transition: background-color 0.2s;
+}
+.action-btn:active { background-color: #d80027; }
+
+.qr-placeholder {
+  width: 200px; height: 200px; margin: 10px auto;
+  border: 1px solid #ccc;
+}
+.modal-stamp-img.unacquired img {
+  opacity: 0.3; filter: grayscale(100%);
+}
+.modal-status {
+  font-size: 14px; font-weight: bold; margin-bottom: 5px;
+}
+
+/* 【Map画面：画像と点滅マーカー】 */
+.map-container-box {
+  position: relative;
+  width: 100%;
+  margin-top: 10px;
+  border-radius: 10px;
+}
+
+.map-image {
+  position: relative;
+  top: 30px;
+  left: 0;
+  width: 100%;
+  height: auto;
+}
+
+.map-target-pulse {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border: 4px solid #ff4b4b;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 50;
+  pointer-events: none;
+  animation: mapPulse 1s infinite ease-out;
+}
+.map-target-pulse.hidden { display: none; }
+
+@keyframes mapPulse {
+  0% {
+    transform: translate(-50%, -50%) scale(0.3);
+    opacity: 1;
+    border-width: 8px;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.6);
+    opacity: 0;
+    border-width: 1px;
+  }
+}
+
+.map-target-tooltip {
+  position: absolute;
+  top: -36px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ff4b4b;
+  color: #fff;
+  padding: 3px 8px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: bold;
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+.map-target-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 4px 4px 0;
+  border-style: solid;
+  border-color: #ff4b4b transparent transparent transparent;
+}
+
+/* 見出し */
+h2 {
+  text-align: left;
+  margin-left: 10px;
+  font-size: 40px;
+  margin-bottom: -3px;
+  color: #fff;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+h3 {
+  text-align: left;
+  margin-left: 15px;
+  font-size: 14px;
+  color: #d9d9d9;
+  letter-spacing: 1.2px;
+  z-index: 5;
+}
+h4 {
+  text-align: left;
+  margin-left: 15px;
+  font-size: 18px;
+  color: #ffffff;
+  z-index: 5;
+    -webkit-text-stroke: 2px #010101; /* 枠の太さと色 (幅の色) */
+  paint-order: stroke fill; /* 枠が文字の塗りの下に描画されるようにする */
+}
+
+/* 【ギャラリー】 */
+.slider { width: 110%; top: 30px; margin: 0 -15px; }
+.slider img { width: 65vw; height: auto; }
+.slider .slick-slide { transform: scale(0.8); transition: all .5s; opacity: 0.5; }
+.slider .slick-slide.slick-center { transform: scale(1); opacity: 1; }
+.slick-dots { text-align:center; margin:20px 0 0 0; }
+.slick-dots li { display:inline-block; margin:0 5px; }
+.slick-dots button { color: transparent; outline: none; width: 8px; height: 8px; display:block; border-radius:50%; background:#333; }
+.slick-dots .slick-active button { background:#333; }
+.slick-prev::before, .slick-next::before { content: none !important; display: none !important; }
+.slick-prev, .slick-next { position: absolute; top: 50%; transform: translateY(-50%); width: 15px; height: 15px; border: none; background: transparent; outline: none; cursor: pointer; z-index: 5; }
+.slick-prev::after, .slick-next::after { content: ""; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 44px; height: 44px; background: transparent; }
+.slick-prev::before, .slick-next::before { content: "" !important; display: block !important; width: 12px; height: 12px; border-top: 2px solid #666; border-right: 2px solid #666; opacity: 1 !important; }
+.slick-prev { left: 15px; }
+.slick-prev::before { transform: rotate(-135deg); }
+.slick-next { right: 15px; }
+.slick-next::before { transform: rotate(45deg); }
+.slick-prev.slick-disabled,
+.slick-next.slick-disabled {
+  display: none !important;
+}
+
+/* ★ マップ上の常時表示スタンプピン */
+.static-stamp-pin {
+  position: absolute;
+  transform: translate(-50%, -85%); /* ピンの下端中央を座標に合わせる */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 10;
+  pointer-events: none; /* タッチイベントを透過 */
+}
+
+/* 上部の「スタンプ」テキスト */
+.static-stamp-label {
+  background: #ff4b4b;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 1px 5px;
+  border-radius: 4px;
+  white-space: nowrap;
+  margin-bottom: 2px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* 下部の赤丸 */
+.static-stamp-dot {
+  width: 12px;
+  height: 12px;
+  background-color: #ff4b4b;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+
+
+/* 【フロア詳細モーダル全体】 */
+.floor-modal-content {
+  background: #ffffff;
+  width: 92%;
+  max-width: 400px;
+  max-height: 88vh;
+  border-radius: 12px;
+  border: 3px solid #111;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.floor-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.floor-modal-header h2 {
+  font-size: 22px;
+  color: #111;
+  margin: 0;
+  filter: none;
+}
+.floor-close-btn {
+  background: none;
+  border: none;
+  font-size: 26px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #111;
+  padding: 0 5px;
+}
+
+/* 【フロアマップ & 透明タップ領域】 */
+.floor-map-container {
+  position: relative;
+  width: 100%;
+  border: 2px solid #8e85eb;
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: #f9f9f9;
+}
+.floor-map-container img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* マップ上の透明部屋タップ領域 */
+.room-hotspot {
+  position: absolute;
+  cursor: pointer;
+  border: 1px solid rgba(0, 0, 0,0.5);
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+/* ハイライト時（部屋） */
+.room-hotspot.active {
+  background-color: rgba(255, 235, 59, 0.55) !important; /* ネオンイエロー透過 */
+  border: 3px solid #ff1744 !important;
+  z-index: 20;
+}
+
+/* 【リスト案内テキスト】 */
+.floor-list-info {
+  margin: 8px 0 4px 0;
+  font-size: 12px;
+  font-weight: bold;
+  color: #444;
+}
+
+/* 【コンパクト団体リストエリア】 */
+.floor-group-list {
+  flex-grow: 1;
+  overflow-y: auto; /* 件数が多くなれば縦スクロール */
+  display: flex;
+  flex-direction: column;
+  gap: 6px; /* カード同士の間隔を詰める */
+  height: 340px;
+  padding-right: 2px;
+}
+
+/* 【コンパクトカード構造】 */
+.group-card {
+  position: relative;
+  background: #e2e8f0;
+  border-radius: 6px;
+  padding: 6px 8px 6px 14px; /* 上下左右をコンパクトに詰める */
+  border-left: 6px solid #333; /* 非選択時の左ライン */
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* ハイライト時（カード） */
+.group-card.active {
+  background: #fff9c4; /* 選択時は明るい黄色 */
+  border-left-color: #ff1744;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.group-card-title {
+  font-size: 13px;
+  font-weight: bold;
+  color: #111;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.group-card-desc {
+  font-size: 10.5px;
+  color: #444;
+  line-height: 1.25;
+  margin-bottom: 4px;
+  padding-right: 70px; /* ボタンとの重なり防止 */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* 「次行く！」ボタン */
+.next-go-btn {
+  position: absolute;
+  right: 8px;
+  bottom: 6px;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #00a8cc;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+.next-go-btn.registered {
+  background-color: #ff4b4b;
+}
+
+/* 【モーダル内：部屋選択時のマーカーピン】 */
+.modal-room-marker {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  z-index: 30;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: markerBounce 0.6s infinite alternate ease-in-out;
+}
+
+.modal-room-marker .marker-icon {
+  width: 24px;
+  height: 24px;
+  background-color: #ff1744;
+  border: 2px solid #ffffff;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.4);
+}
+
+@keyframes markerBounce {
+  0% { transform: translate(-50%, -100%); }
+  100% { transform: translate(-50%, -120%); }
+}
+
+/* モーダルマップ上で「次行く！」登録されている部屋の目印 */
+.room-hotspot.is-next-go::after {
+  content: "★";
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  font-size: 10px;
+  color: #fff;
+  background: #ff4b4b;
+  border-radius: 50%;
+  width: 14px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 【全体マップ用】「次行く！」登録部屋のピン */
+.next-go-map-pin {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  z-index: 20;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.2s ease;
+}
+
+.next-go-map-pin:hover {
+  transform: translate(-50%, -110%) scale(1.1);
+}
+
+.next-go-pin-label {
+  background-color: #ff4b4b;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 10px;
+  white-space: nowrap;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  margin-bottom: 2px;
+}
+
+.next-go-pin-marker {
+  width: 22px;
+  height: 22px;
+  background-color: #ff4b4b;
+  color: #fff;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+/* メインマップのコンテナを基準位置にする */
+.map-container-box {
+  position: relative;
+}
+
+/* メインマップ上の階層選択用タップエリア */
+.main-map-hotspot {
+  position: absolute;
+  cursor: pointer;
+  z-index: 10;
+  /* border:2.5px solid #df6f6f; 調整用 */
+}
+
+.red-text {
+  color: red; /* またはカラーコード #ff0000 など */
+}
+
+
+/* 10月21日 実装 */
+/* ★ 獲得済みの常時表示スタンプピン（グレーアウト） */
+.static-stamp-pin.acquired .static-stamp-label {
+  background-color: #888888; /* ラベルを灰色に */
+}
+
+.static-stamp-pin.acquired .static-stamp-dot {
+  background-color: #888888; /* ドットを灰色に */
+  border-color: #dddddd;
+}
+
+/* ★ 景品受取所ピン用の強調カラー（必要に応じて） */
+.static-stamp-pin.prize-pin .static-stamp-label {
+  background-color: #ff9800; /* 景品表示はオレンジ等でわかりやすく */
+}
+.static-stamp-pin.prize-pin .static-stamp-dot {
+  background-color: #ff9800;
+}
+
+.image-text-container {
+  position: relative;
+  width: 100%;
+  margin-top: 10px;
+}
+
+/* 画像のスタイル */
+.vote-image {
+  position: absolute;
+  top: 80%;
+  width: 25%;
+  height: auto;
+  transform: rotate(-5deg);
+  border-radius: 10px;
+  display: block; 
+}
+
+/* 重ねたいテキストのスタイル */
+.vote-text {
+  position: absolute;
+  top: 85%;   /* 親要素の上端からの位置 (%) */
+  left: 30%;  /* 親要素の左端からの位置 (%) */
+  /* 必要に応じてテキストのスタイルを指定 */
+  font-weight: bold;
+  color: #fff;
+  z-index: 2; /* 画像より前面に表示 */
+}
+
+
+/* 画像を重ねるための親コンテナ */
+.home-illustration-container {
+  position: absolute;
+  top: 40px;
+  left: 20px;
+  width: 90%;
+  height: 90%;
+  z-index: 1;
+}
+
+/* すべてのイラストの背面に敷くベース背景画像 */
+.base-illustration-bg {
+  position: relative;
+  top: -25px;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 0;
+}
+
+/* 重ねていく各パーツ画像（初期状態は透明で非表示） */
+.step-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  opacity: 0; /* 最初は非表示 */
+  transition: opacity 0.6s ease-in-out; /* ふんわり表示させるアニメーション */
+  pointer-events: none;
+  z-index: 2; /* ベース背景の上、スタンプより下に配置 */
+}
+
+/* スタンプ獲得数に応じて適用され、画像が重なっていくクラス */
+.step-img.show {
+  opacity: 1;
+}
+
+.tutorial-image{
+  position: relative;
+  left: -13px;
+  width: 110%;
+  height: auto;
+  margin-top: 10px;
+  border-radius: 10px;
+}

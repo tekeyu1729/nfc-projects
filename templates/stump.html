@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>NFCスタンプラリー</title> 
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="app-container">
+    <!-- 【ヘッダー】 -->
+    <header>
+      <img src="{{ url_for('static', filename='images/logo.webp') }}" alt="ロゴ" class="logo-image" id="logoBtn">
+      <nav class="menu-group">
+        <a href="#" id="navHome" class="active"><img src="{{ url_for('static', filename='images/home.webp') }}" alt="ホーム"></a>
+        <a href="#" id="navGallery"><img src="{{ url_for('static', filename='images/gallery.webp') }}" alt="ギャラリー"></a>
+        <a href="#" id="navMap"><img src="{{ url_for('static', filename='images/map.webp') }}" alt="マップ"></a>
+      </nav>
+    </header>
+    
+    <!-- 【Homeタブ】 -->
+<div class="view-section active" id="viewHome">
+  <div class="map-area" id="mapArea"></div>
+
+  <div class="home-illustration-container">
+    <!-- すべてのイラストの背面に敷くベース背景画像 -->
+    <img src="{{ url_for('static', filename='images/illustration_bg.webp') }}" class="base-illustration-bg">
+    
+    <!-- スタンプ獲得に応じて順に重ねていくパーツ画像 (0〜5) -->
+    <img src="{{ url_for('static', filename='images/illustration_0.webp') }}" class="step-img" data-step="0">
+    <img src="{{ url_for('static', filename='images/illustration_1.webp') }}" class="step-img" data-step="1">
+    <img src="{{ url_for('static', filename='images/illustration_2.webp') }}" class="step-img" data-step="2">
+    <img src="{{ url_for('static', filename='images/illustration_3.webp') }}" class="step-img" data-step="3">
+    <img src="{{ url_for('static', filename='images/illustration_4.webp') }}" class="step-img" data-step="4">
+    <img src="{{ url_for('static', filename='images/illustration_5.webp') }}" class="step-img" data-step="5">
+  </div>
+
+  <img src="{{ url_for('static', filename='images/background1.webp') }}" class="background-image"> 
+  <div class="goal-button-parent">
+    <div id="goalBtn" class="goal-button"> 集め終わったらタップ！</div>
+    <img src="{{ url_for('static', filename='images/lock.webp') }}" class="lock-icon" id="lock-icon"> 
+  </div>
+</div>
+
+    <!-- 【Galleryタブ】 -->
+    <div class="view-section" id="viewGallery">
+      <div class="gallery-content" id="galleryArea">
+        <img src="{{ url_for('static', filename='images/background2.webp') }}" class="background-image"> 
+        <h2>Gallery</h2>
+        <h3>獲得したスタンプをチェック！</h3>
+        <ul class="slider"> 
+          <li data-id="stump_01"><img src="{{ url_for('static', filename='images/img-00.webp') }}" alt=""></li>
+          <li data-id="stump_02"><img src="{{ url_for('static', filename='images/img-00.webp') }}" alt=""></li>
+          <li data-id="stump_03"><img src="{{ url_for('static', filename='images/img-00.webp') }}" alt=""></li>
+          <li data-id="stump_04"><img src="{{ url_for('static', filename='images/img-00.webp') }}" alt=""></li>
+          <li data-id="stump_05"><img src="{{ url_for('static', filename='images/img-00.webp') }}" alt=""></li>
+          <li data-id="stump_05"><img src="{{ url_for('static', filename='images/img-00.webp') }}" alt=""></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 【Mapタブ】 -->
+    <div class="view-section" id="viewMap">
+      <div class="home-content">
+        <img src="{{ url_for('static', filename='images/background2.webp') }}" class="background-image">
+        <h2>Map</h2>
+        <h3>スタンプの配置を確認しよう！</h3>
+        
+        <!-- 画像と点滅マーカーを同一基準で囲むボックス -->
+        <div class="map-container-box">
+          <img src="{{ url_for('static', filename='images/schoolMap.webp') }}" class="map-image" alt="校内マップ">
+          <div class="main-map-hotspot" data-floor="m-1F" style="left: 43%; top: 76%; width: 45%; height: 20%;"></div>
+          <div class="main-map-hotspot" data-floor="m-2F" style="left: 43%; top: 46.5%; width: 45%; height: 20%;"></div>
+          <div class="main-map-hotspot" data-floor="m-3F" style="left: 43%; top: 29%; width: 45%; height: 17%;"></div>
+          <div class="main-map-hotspot" data-floor="m-4F" style="left: 43%; top: 8.5%; width: 45%; height: 20%;"></div>
+          <div class="main-map-hotspot" data-floor="s-1F" style="left: 0%; top: 83%; width: 41%; height: 24%;"></div>
+          <div class="main-map-hotspot" data-floor="s-3F" style="left: 0%; top: 38%; width: 41%; height: 10%;"></div>
+          <div class="main-map-hotspot" data-floor="r-1F" style="left: 7%; top: 20%; width: 30%; height: 17%;"></div>
+          <div class="main-map-hotspot" data-floor="h-2F" style="left: 89%; top: 38%; width: 30%; height: 59%;"></div>
+          <div class="main-map-hotspot" data-floor="j-1F" style="left: 40%; top: 67%; width: 25%; height: 8%;"></div>
+          <!-- スタンプ誘導用の点滅マーカー -->
+          <div id="mapTargetMarker" class="map-target-pulse hidden">
+          </div>
+        </div>
+        <a href="https://forms.gle/PjPHEdkNo8hXYB9W8"><img src="{{ url_for('static', filename='images/vote.webp') }}"  class="vote-image"></a>
+        <h4 class="vote-text">ポスターをタップで、<br>「最強団体決定戦」に投票！</h4>
+      </div>
+    </div>
+
+    <!-- 【モーダル１：スタンプ詳細】 -->
+    <div class="modal-overlay" id="stampModal">
+      <div class="modal-content">
+        <div class="modal-status" id="modalStatus"></div>
+        <div class="modal-stamp-img" id="modalImgContainer"></div>
+        <div class="modal-location" id="modalLocation">場所：◯◯室前</div>
+        
+        <!-- 横並びのボタンエリア -->
+        <div class="modal-actions">
+          <button class="close-btn" id="closeStampModal">閉じる</button>
+          <button class="action-btn" id="goToMapBtn">マップへ</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 【モーダル２：ゴール画面】 -->
+    <div class="modal-overlay" id="goalModal">
+      <div class="modal-content">
+        <p id="goalRankDisplay" style="font-size: 17px; font-weight: bold; color: black;"></p>
+        <div class="qr-placeholder">
+          <img id="qrImage" src="" alt="QR Code" style="width:100%; height:100%;">
+        </div>
+        <p style="font-size: 15px; font-weight: bold; margin-top: 8px;">この画面を係員に見せて<span class="red-text">景品をGET！</span></p>
+        <p style="font-size: 15px; font-weight: bold; margin-top: 0px;"><span class="red-text">情報サイエンス棟 講義室P</span>で待ってます</p>
+        <button class="close-btn" id="closeGoalModal">閉じる</button>
+        <button class="action-btn" id="goalToMapBtn">マップへ</button>
+      </div>
+    </div>
+
+    <!-- 【モーダル３：チュートリアル】 -->
+    <div class="modal-overlay" id="tutorialModal">
+      <div class="modal-content tutorial-content">
+        <div class="tutorial-img-box">
+          <!-- チュートリアル用の画像を配置 -->
+          <img src="{{ url_for('static', filename='images/tutorial.webp') }}" alt="使い方"  class="tutorial-image">
+        </div>
+        <button class="action-btn" id="closeTutorialBtn" style="margin-top: 15px; width: 100%;">スタート！</button>
+      </div>
+    </div>
+  </div>
+
+
+<!-- 【フロア詳細モーダル】 -->
+  <div class="modal-overlay" id="floorDetailModal">
+    <div class="floor-modal-content">
+      <!-- ヘッダーエリア -->
+      <div class="floor-modal-header">
+        <h2 id="floorTitle">1階フロアマップ</h2>
+        <button class="floor-close-btn" id="closeFloorModal">✕</button>
+      </div>
+
+      <!-- マップ表示エリア -->
+      <div class="floor-map-container">
+        <img id="floorMapImg" src="" alt="フロアマップ">
+        <!-- 透明タップ領域がJSで動的に挿入されます -->
+        <div id="floorHotspotArea"></div>
+      </div>
+
+      <!-- ヘッダー情報（カウント表示） -->
+      <div class="floor-list-info">
+        <span class="bookmark-count-badge">★ 「次行く!」登録: <span id="bookmarkCount">0</span>件 ★</span>
+      </div>
+
+      <!-- 団体一覧リスト（コンパクト表示） -->
+      <div class="floor-group-list" id="groupListContainer">
+        <!-- JSでここにコンパクトカードが生成されます -->
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

@@ -251,10 +251,10 @@ def all_page():
 
 # --- QRコード照会用API ---
 
-@app.route('/admin/checkr')
+@app.route('/admin/checker')
 @requires_auth
 def qr_reader_page():
-    return render_template('checkr.html')
+    return render_template('checker.html')
 
 @app.route('/api/check_user', methods=['POST'])
 @requires_auth

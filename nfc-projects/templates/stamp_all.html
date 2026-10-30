@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>スタンプラリーリンク集</title>
+</head>
+<body>
+    <!-- リンクを動的に挿入するコンテナ -->
+    <div id="link-container"></div>
+    
+    <a href="https://kansas-volt-concrete-burton.trycloudflare.com/admin" target="_blank" rel="noopener noreferrer">管理ページ</a><br>
+    <a href="https://kansas-volt-concrete-burton.trycloudflare.com/admin/checkr" target="_blank" rel="noopener noreferrer">確認ページ</a>
+
+    <script>
+        const baseUrl = "https://kansas-volt-concrete-burton.trycloudflare.com/stamp?id=";
+
+        // static/stamp.json からデータを取得
+        fetch('/static/stamp.json')
+            .then(response => response.json())
+            .then(stamps => {
+                const container = document.getElementById('link-container');
+                let allIds = [];
+
+                // 個別のスタンプリンクを生成
+                stamps.forEach(stamp => {
+                    allIds.push(stamp.id);
+                    
+                    const a = document.createElement('a');
+                    a.href = `${baseUrl}${stamp.id}`;
+                    a.target = "_blank";
+                    a.rel = "noopener noreferrer";
+                    a.textContent = stamp.name;
+                    
+                    container.appendChild(a);
+                    container.appendChild(document.createElement('br'));
+                });
+
+                // すべてのIDをつなげた「スタンプ_all」のリンクを生成
+                if (allIds.length > 0) {
+                    const allA = document.createElement('a');
+                    allA.href = `${baseUrl}${allIds.join('&id=')}`;
+                    allA.target = "_blank";
+                    allA.rel = "noopener noreferrer";
+                    allA.textContent = "スタンプ_all";
+                    
+                    container.appendChild(allA);
+                    container.appendChild(document.createElement('br'));
+                }
+            })
+            .catch(error => console.error('stamp.jsonの読み込みに失敗しました:', error));
+    </script>
+</body>
+</html>

@@ -6,49 +6,10 @@
     <title>スタンプラリーリンク集</title>
 </head>
 <body>
-    <!-- リンクを動的に挿入するコンテナ -->
-    <div id="link-container"></div>
-    
-    <a href="https://kansas-volt-concrete-burton.trycloudflare.com/admin" target="_blank" rel="noopener noreferrer">管理ページ</a><br>
-    <a href="https://kansas-volt-concrete-burton.trycloudflare.com/admin/checkr" target="_blank" rel="noopener noreferrer">確認ページ</a>
-
-    <script>
-        const baseUrl = "https://kansas-volt-concrete-burton.trycloudflare.com/stamp?id=";
-
-        // static/stamp.json からデータを取得
-        fetch('/static/stamp.json')
-            .then(response => response.json())
-            .then(stamps => {
-                const container = document.getElementById('link-container');
-                let allIds = [];
-
-                // 個別のスタンプリンクを生成
-                stamps.forEach(stamp => {
-                    allIds.push(stamp.id);
-                    
-                    const a = document.createElement('a');
-                    a.href = `${baseUrl}${stamp.id}`;
-                    a.target = "_blank";
-                    a.rel = "noopener noreferrer";
-                    a.textContent = stamp.name;
-                    
-                    container.appendChild(a);
-                    container.appendChild(document.createElement('br'));
-                });
-
-                // すべてのIDをつなげた「スタンプ_all」のリンクを生成
-                if (allIds.length > 0) {
-                    const allA = document.createElement('a');
-                    allA.href = `${baseUrl}${allIds.join('&id=')}`;
-                    allA.target = "_blank";
-                    allA.rel = "noopener noreferrer";
-                    allA.textContent = "スタンプ_all";
-                    
-                    container.appendChild(allA);
-                    container.appendChild(document.createElement('br'));
-                }
-            })
-            .catch(error => console.error('stamp.jsonの読み込みに失敗しました:', error));
-    </script>
-</body>
+    <a href="https://spiritual-merchants-someone-ignored.trycloudflare.com/stamp?id=647899" target="_blank" rel="noopener noreferrer">スタンプ_1</a><br>
+    <a href="https://spiritual-merchants-someone-ignored.trycloudflare.com/stamp?id=307616" target="_blank" rel="noopener noreferrer">スタンプ_2</a><br>
+    <a href="https://spiritual-merchants-someone-ignored.trycloudflare.com/stamp?id=832904" target="_blank" rel="noopener noreferrer">スタンプ_3</a><br>
+    <a href="https://spiritual-merchants-someone-ignored.trycloudflare.com/stamp?id=846782" target="_blank" rel="noopener noreferrer">スタンプ_4</a><br>
+    <a href="https://spiritual-merchants-someone-ignored.trycloudflare.com/stamp?id=675845" target="_blank" rel="noopener noreferrer">スタンプ_5</a><br>
+    <a href="https://spiritual-merchants-someone-ignored.trycloudflare.com/stamp?id=647899&id=307616&id=832904&id=846782&id=675845" target="_blank" rel="noopener noreferrer">スタンプ_all</a><br>
 </html>

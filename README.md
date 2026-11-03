@@ -1,6 +1,7 @@
 <h3>0.はじめに</h3>
 このスタンプラリーは次のような構成で作成されている。
-<img width="359" height="201.5" alt="image" src="https://github.com/user-attachments/assets/0be9735f-e0f5-4ed0-ac26-aae293f5dd2c" />
+<img width="50%" height="50%" alt="image" src="https://github.com/user-attachments/assets/80f968ed-563e-42cd-9f73-2a5d482c204a" />
+
 
 
 

@@ -19,7 +19,7 @@
 下の資料では各サイトへつながるパスについてやstamp_idの変更法を説明します。<br>
 <a href="https://github.com/tekeyu1729/nfc-projects/blob/main/other/readme/%E3%80%8CNFC%E3%82%BF%E3%82%B0%E3%82%B9%E3%82%BF%E3%83%B3%E3%83%97%E3%83%A9%E3%83%AA%E3%83%BC%E3%80%8D%E5%BC%95%E3%81%8D%E7%B6%99%E3%81%8E%E8%B3%87%E6%96%99_other_1.pdf">「NFCタグスタンプラリー」引き継ぎ資料_other_1.pdf</a>
 
-<h2>5.メインページ(stamp.html)の使い方</h2>
+~~<h2>5.メインページ(stamp.html)の使い方</h2>~~(準備中)
 下の資料ではapp.py,checker.html,admin.html,py_csv_to_json.py,cloudflared_make_link.bat,make_link.pyの6つのファイルの動作原理について説明します。<br>
 <a href="https://github.com/tekeyu1729/nfc-projects/blob/main/other/readme/%E3%80%8CNFC%E3%82%BF%E3%82%B0%E3%82%B9%E3%82%BF%E3%83%B3%E3%83%97%E3%83%A9%E3%83%AA%E3%83%BC%E3%80%8D%E5%BC%95%E3%81%8D%E7%B6%99%E3%81%8E%E8%B3%87%E6%96%99_other_2.pdf">「NFCタグスタンプラリー」引き継ぎ資料_other_2.pdf</a>
 

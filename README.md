@@ -8,3 +8,4 @@
 をクリックしダウンロードしたらエクスプローラで展開する。
 
 <h2>2.メインページ(stamp.html)の使い方</h2>
+https://github.com/tekeyu1729/nfc-projects/blob/main/other/readme/%E3%82%B9%E3%82%BF%E3%83%B3%E3%83%97%E3%83%A9%E3%83%AA%E3%83%BC%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BC%E5%BB%BA%E3%81%A6%E6%96%B9.pdf

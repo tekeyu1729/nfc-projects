@@ -1,4 +1,4 @@
 import datetime
-now = datetime.datetime.now()
-time = list(map(int, now.strftime('%H %M').split(" ")))
-print(f"{time[0]-1}:{time[1]+55}" if 0<=time[1] and time[1]<=4 else f"{time[0]}:{str(float(time[1]-5)/10).replace(".","")}")
+de = {"k":0,"m":0,"g":0,"t":0,"p":5}.get(input("room name?>").lower(),0)
+t = list(map(int, datetime.datetime.now().strftime('%H %M').split(" ")))
+print(f"{t[0]+((t[1]-de)//60)}:{((t[1]-de)%60):02d}")

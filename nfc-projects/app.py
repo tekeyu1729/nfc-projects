@@ -67,8 +67,8 @@ def save_db():
 user_db = load_db()
 
 # --- 管理者認証用設定 ---
-ADMIN_USER = 'q1w2e3r4'
-ADMIN_PASS = 'zaxscdvf'
+ADMIN_USER = 'admin'
+ADMIN_PASS = '0000'
 
 def check_auth(username, password):
     return username == ADMIN_USER and password == ADMIN_PASS
